@@ -1,0 +1,28 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure(2) do |config|
+  config.ssh.forward_agent = true
+
+  # VirtualBox
+  config.vm.provider :virtualbox do |v|
+    v.cpus   = 2
+    v.memory = 4096
+    v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+    v.customize ["modifyvm", :id, "--ioapic", "on"]
+  end
+
+  # CentOS 7 (default Toptal OS)
+  config.vm.define "centos7" do |centos7|
+    centos7.vm.box_check_update = false
+    centos7.vm.box              = "centos/7"
+    centos7.vm.hostname         = "centos7.heartbeat.lan"
+    centos7.vm.network :forwarded_port, guest: 22, host: 10722, id: "ssh"
+
+    # update packages
+    config.vm.provision "shell", inline: <<-SHELL
+      sudo yum update -y
+    SHELL
+  end
+
+end
