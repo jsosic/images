@@ -46,6 +46,26 @@ pull:
 	docker pull docker.io/jsosic/rpmbuilder:el7
 	docker pull docker.io/jsosic/rpmbuilder:el7ius
 
+systemd: build_systemd push_systemd
+
+build_systemd:
+	@echo Building systemd images
+	docker build --pull --tag docker.io/jsosic/systemd:el7 systemd:el7
+	docker build --pull --tag docker.io/jsosic/systemd:f29 systemd:f29
+	docker build --pull --tag docker.io/jsosic/systemd:u1804 systemd:u1804
+
+push_systemd:
+	@echo Pushing systemd images
+	docker push docker.io/jsosic/systemd:el7
+	docker push docker.io/jsosic/systemd:f29
+	docker push docker.io/jsosic/systemd:u1804
+
+pull_systemd:
+	@echo Pulling systemd images
+	docker pull docker.io/jsosic/systemd:el7
+	docker pull docker.io/jsosic/systemd:f29
+	docker pull docker.io/jsosic/systemd:u1804
+
 help:
 	@echo List of all accessible tasks
 	@echo ------------------------------------
