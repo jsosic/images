@@ -2,7 +2,9 @@ FROM centos:7
 MAINTAINER "Jakov Sosic" <jsosic@gmail.com>
 ENV container docker
 
-RUN yum -y update && yum clean all
+RUN yum -y update \
+ && yum -y install which less procps-ng \
+ && yum clean all
 
 RUN yum -y install systemd && yum clean all
 

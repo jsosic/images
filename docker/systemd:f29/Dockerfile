@@ -2,7 +2,9 @@ FROM fedora:29
 MAINTAINER "Jakov Sosic" <jsosic@gmail.com>
 ENV container docker
 
-RUN dnf -y update && dnf clean all
+RUN dnf -y update \
+ && dnf -y install which less procps-ng \
+ && dnf clean all
 
 RUN dnf -y install systemd && dnf clean all
 
