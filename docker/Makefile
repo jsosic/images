@@ -3,17 +3,18 @@
 
 .SECONDEXPANSION:
 
-.PHONY: default all el6-build el7-build el6-push el7-push
+.PHONY: default all build_el6 build_el7 build_el8 push_el6 push_el7 push_el8
 
 default:
 	@echo
 	@echo "Run 'make help' to see all targets"
 	@echo "Run 'make vars' to see variables"
 
-all: build_el6 build_el7 push_el6 push_el7
+all: clean build_el6 build_el7 build_el8 push_el6 push_el7 push_el8
 
 clean:
 	@echo Removing all rpmbuilder images
+	docker rmi -f jsosic/rpmbuilder:el8    docker.io/jsosic/rpmbuilder:el8
 	docker rmi -f jsosic/rpmbuilder:el7ius docker.io/jsosic/rpmbuilder:el7ius
 	docker rmi -f jsosic/rpmbuilder:el7    docker.io/jsosic/rpmbuilder:el7
 	docker rmi -f jsosic/rpmbuilder:el6ius docker.io/jsosic/rpmbuilder:el6ius
@@ -29,6 +30,10 @@ build_el7:
 	docker build --pull --tag docker.io/jsosic/rpmbuilder:el7    rpmbuilder:el7
 	docker build --tag docker.io/jsosic/rpmbuilder:el7ius rpmbuilder:el7ius
 
+build_el8:
+	@echo Building el8 rpmbuilder images
+	docker build --pull --tag docker.io/jsosic/rpmbuilder:el8    rpmbuilder:el8
+
 push_el6:
 	@echo Pushing el6 rpmbuilder images
 	docker push docker.io/jsosic/rpmbuilder:el6
@@ -39,12 +44,17 @@ push_el7:
 	docker push docker.io/jsosic/rpmbuilder:el7
 	docker push docker.io/jsosic/rpmbuilder:el7ius
 
+push_el8:
+	@echo Pushing el8 rpmbuilder images
+	docker push docker.io/jsosic/rpmbuilder:el8
+
 pull:
 	@echo Pulling images
 	docker pull docker.io/jsosic/rpmbuilder:el6
 	docker pull docker.io/jsosic/rpmbuilder:el6ius
 	docker pull docker.io/jsosic/rpmbuilder:el7
 	docker pull docker.io/jsosic/rpmbuilder:el7ius
+	docker pull docker.io/jsosic/rpmbuilder:el8
 
 systemd: build_systemd push_systemd
 
