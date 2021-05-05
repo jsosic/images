@@ -1,6 +1,8 @@
 FROM centos:6
 MAINTAINER Jakov Sosic "<jsosic@gmail.com>"
-RUN yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm \
+RUN sed -i 's/mirrorlist=/#mirrorlist=/g' /etc/yum.repos.d/* \
+ && sed -i 's|#baseurl=http://mirror.centos.org/|baseurl=http://vault.centos.org/|g' /etc/yum.repos.d/* \
+ && yum -y install https://archives.fedoraproject.org/pub/archive/epel/6/x86_64/epel-release-6-8.noarch.rpm \
  && yum -y update \
  && yum -y install @development git rpm-build yum-utils rpmdevtools sudo openssl which vim \
  && yum -y install epel-rpm-macros \
