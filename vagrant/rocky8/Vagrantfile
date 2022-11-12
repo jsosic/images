@@ -12,16 +12,16 @@ Vagrant.configure(2) do |config|
     v.customize ["modifyvm", :id, "--ioapic", "on"]
   end
 
-  # CentOS 7 (default Toptal OS)
-  config.vm.define "centos7" do |centos7|
-    centos7.vm.box_check_update = false
-    centos7.vm.box              = "generic/centos7"
-    centos7.vm.hostname         = "centos7.heartbeat.lan"
-    centos7.vm.network :forwarded_port, guest: 22, host: 10722, id: "ssh"
+  # Rocky 8
+  config.vm.define "rocky8" do |rocky8|
+    rocky8.vm.box_check_update = false
+    rocky8.vm.box              = "generic/rocky8"
+    rocky8.vm.hostname         = "rocky8.heartbeat.lan"
+    rocky8.vm.network :forwarded_port, guest: 22, host: 10822, id: "ssh"
 
     # update packages
     config.vm.provision "shell", inline: <<-SHELL
-      sudo yum update -y
+      sudo dnf update -y
     SHELL
   end
 
